@@ -22,9 +22,9 @@ systemctl restart php7.4-fpm
 systemctl enable mariadb
 systemctl start mariadb
 
-db_pass=nextcloudDBTPC
+#db_pass=nextcloudDBTPC
 
-mysql -e "UPDATE mysql.user SET Password = PASSWORD('$db_pass') WHERE User = 'root'"
+#mysql -e "UPDATE mysql.user SET Password = PASSWORD('$db_pass') WHERE User = 'root'"
 mysql -e "CREATE DATABASE nextcloud"
 mysql -e "CREATE USER 'nextcloud'@'localhost' IDENTIFIED BY 'nextcloud'"
 mysql -e "GRANT ALL ON nextcloud.* TO 'nextcloud'@'localhost' IDENTIFIED BY 'nextcloud' WITH GRANT OPTION"
