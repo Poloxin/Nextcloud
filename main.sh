@@ -33,62 +33,7 @@ mysql -e "EXIT"
 
 # Set Nginx
 
-echo -e  "server {
-        listen 80;
-        server_name 192.168.1.107;
-
-        root /var/www/nextcloud;
-
-        add_header Strict-Transport-Security "max-age=31536000; includeSubDomains" always;
-        client_max_body_size 20G;
-        fastcgi_buffers 64 4K;
-
-        rewrite ^/caldav(.*)$ /remote.php/caldav$1 redirect;
-        rewrite ^/carddav(.*)$ /remote.php/carddav$1 redirect;
-        rewrite ^/webdav(.*)$ /remote.php/webdav$1 redirect;
-
-        index index.php;
-        error_page 403 = /core/templates/403.php;
-        error_page 404 = /core/templates/404.php;
-
-        location = /robots.txt {
-            allow all;
-            log_not_found off;
-            access_log off;
-        }
-
-        location ~ ^/(data|config|\.ht|db_structure\.xml|README) {
-                deny all;
-        }
-
-        location ^~ /.well-known {
-                location = /.well-known/carddav { return 301 /remote.php/dav/; }
-                location = /.well-known/caldav  { return 301 /remote.php/dav/; }
-                location ^~ /.well-known{ return 301 /index.php/$uri; }
-                try_files $uri $uri/ =404;
-        }
-
-        location / {
-                rewrite ^/.well-known/host-meta /public.php?service=host-meta last;
-                rewrite ^/.well-known/host-meta.json /public.php?service=host-meta-json last;
-                rewrite ^(/core/doc/[^\/]+/)$ $1/index.html;
-                try_files $uri $uri/ index.php;
-        }
-
-        location ~ ^(.+?\.php)(/.*)?$ {
-                try_files $1 = 404;
-                include fastcgi_params;
-                fastcgi_param SCRIPT_FILENAME $document_root$1;
-                fastcgi_param PATH_INFO $2;
-		fastcgi_param HTTPS off;
-                fastcgi_pass unix:/run/php/php7.4-fpm.sock;
-        }
-
-        location ~* ^.+\.(jpg|jpeg|gif|bmp|ico|png|css|js|swf)$ {
-                expires modified +30d;
-                access_log off;
-        }
-}" >> /etc/nginx/conf.d/nextcloud.conf
+echo -e  "server {\n        listen 80;\n        server_name 192.168.1.107;\n        root /var/www/nextcloud;\n        add_header Strict-Transport-Security "max-age=31536000; includeSubDomains" always;\n        client_max_body_size 20G;\n        fastcgi_buffers 64 4K;\n        rewrite ^/caldav(.*)$ /remote.php/caldav$1 redirect;\n        rewrite ^/carddav(.*)$ /remote.php/carddav$1 redirect;\n        rewrite ^/webdav(.*)$ /remote.php/webdav$1 redirect;\n        index index.php;\n        error_page 403 = /core/templates/403.php;\n        error_page 404 = /core/templates/404.php;\n        location = /robots.txt {\n            allow all;\n            log_not_found off;\n           access_log off;\n        }\n        location ~ ^/(data|config|\.ht|db_structure\.xml|README) {\n                deny all;\n        }\n        location ^~ /.well-known {\n                location = /.well-known/carddav { return 301 /remote.php/dav/; }\n                location = /.well-known/caldav  { return 301 /remote.php/dav/; }\n                location ^~ /.well-known{ return 301 /index.php/$uri; }\n                try_files $uri $uri/ =404;\n        }\n        location / {\n                rewrite ^/.well-known/host-meta /public.php?service=host-meta last;\n                rewrite ^/.well-known/host-meta.json /public.php?service=host-meta-json last;\n                rewrite ^(/core/doc/[^\/]+/)$ $1/index.html;\n                try_files $uri $uri/ index.php;\n        }\n        location ~ ^(.+?\.php)(/.*)?$ {\n                try_files $1 = 404;\n                include fastcgi_params;\n                fastcgi_param SCRIPT_FILENAME $document_root$1;\n                fastcgi_param PATH_INFO $2;\n		fastcgi_param HTTPS off;\n                fastcgi_pass unix:/run/php/php7.4-fpm.sock;\n        }\n        location ~* ^.+\.(jpg|jpeg|gif|bmp|ico|png|css|js|swf)$ {\n                expires modified +30d;\n                access_log off;\n        }\n}" >> /etc/nginx/conf.d/nextcloud.conf
 
 sudo systemctl enable nginx
 sudo systemctl restart nginx
