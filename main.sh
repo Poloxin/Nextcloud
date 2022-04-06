@@ -33,6 +33,7 @@ mysql -e "EXIT"
 
 # Set Nginx
 
+touch /etc/nginx/conf.d/nextcloud.conf
 echo "
 server {
         listen 80;
