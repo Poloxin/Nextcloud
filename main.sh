@@ -78,7 +78,7 @@ echo "server {
                 try_files $1 = 404;
                 include fastcgi_params;
                 fastcgi_param SCRIPT_FILENAME \$document_root\$1;
-                fastcgi_param PATH_INFO $2;
+                fastcgi_param PATH_INFO \$2;
 		fastcgi_param HTTPS off;
                 fastcgi_pass unix:/run/php/php7.4-fpm.sock;
         }
