@@ -33,9 +33,7 @@ mysql -e "EXIT"
 
 # Set Nginx
 
-touch /etc/nginx/conf.d/nextcloud.conf
-echo "
-server {
+echo "server {
         listen 80;
         server_name 192.168.1.107;
 
@@ -90,8 +88,7 @@ server {
                 expires modified +30d;
                 access_log off;
         }
-}
-" >> /etc/nginx/conf.d/nextcloud.conf
+}" >> /etc/nginx/conf.d/nextcloud.conf
 
 sudo systemctl enable nginx
 sudo systemctl restart nginx
