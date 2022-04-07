@@ -27,7 +27,7 @@ echo -e "Done!\n"
 # Install programms for Nextcloud
 echo -e "Install programs!"
 
-apt install -y htop mariadb-server mariadb-client php php-gmp php-bcmath php-fpm php-common php-zip php-xml php-intl php-gd php-mysql php-mbstring php-curl php-imagick php-ldap php-json php-opcache php-apcu nginx unzip smbclient&> /dev/null
+apt install -y htop mariadb-server mariadb-client php php-gmp php-bcmath php-fpm php-common php-zip php-xml php-intl php-gd php-mysql php-mbstring php-curl php-imagick php-ldap php-json php-opcache php-apcu nginx unzip &> /dev/null
 
 
 echo -e "Done!\n"
@@ -51,9 +51,6 @@ echo -e "Config MadriaDB!"
 systemctl enable mariadb &> /dev/null
 systemctl start mariadb &> /dev/null
 
-#db_pass=nextcloudDBTPC
-
-#mysql -e "UPDATE mysql.user SET Password = PASSWORD('$db_pass') WHERE User = 'root'"
 mysql -e "CREATE DATABASE nextcloud"
 mysql -e "CREATE USER 'nextcloud'@'localhost' IDENTIFIED BY 'nextcloud'"
 mysql -e "GRANT ALL ON nextcloud.* TO 'nextcloud'@'localhost' IDENTIFIED BY 'nextcloud' WITH GRANT OPTION"
@@ -137,10 +134,52 @@ wget https://download.nextcloud.com/server/releases/nextcloud-23.0.3.zip
 unzip nextcloud-*.zip &> /dev/null
 mv nextcloud /var/www
 chown -R www-data:www-data /var/www/nextcloud
-sudo -u www-data php /var/www/nextcloud/occ db:convert-filecache-bigint
 
 echo -e "Done!\n"
 
 # Upgrade Nextcloud
 echo -e "Upgrade Nextcloud"
 
+# First DATABASE update
+sudo -u www-data php /var/www/nextcloud/occ db:convert-filecache-bigint
+
+# Second Install CASHED PROGRAMS
+apt install redis-server postgresq lphp-redis memcached php-memcached rabbitmq-server nginx-extras #&> /dev/null
+
+systemctl enable memcached &> /dev/null
+systemctl restart php7.4-fpm &> /dev/null
+
+sudo -u www-data php /var/www/nextcloud/occ files:scan --all
+
+echo -e "Done!\n"
+
+# Set PostgreSQL
+echo -e "Configure PostgreSQL!" 
+
+sudo -i -u postgres psql -c "CREATE DATABASE onlyoffice;"
+sudo -i -u postgres psql -c "CREATE USER onlyoffice WITH password 'onlyoffice'"
+sudo -i -u postgres psql -c "GRANT ALL privileges ON DATABASE onlyoffice TO onlyoffice;"
+
+echo -e "Done!\n"
+
+
+# Install OnlyOffice
+echo -e "Install OnlyOffice!"
+
+apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys CB2DE8E5
+echo "deb https://download.onlyoffice.com/repo/debian squeeze main" | sudo tee /etc/apt/sources.list.d/onlyoffice.list 
+
+apt update 
+apt full-upgrade -y
+
+echo -e "\n\n\n=========================Enter password==========================\n\n\n"
+apt install onlyoffice-documentserver -y
+
+echo -e "include /etc/nginx/includes/http-common.conf;
+server {
+  listen 0.0.0.0:8080;
+  listen [::]:8080 default_server;
+  server_tokens off;
+
+  include /etc/nginx/includes/ds-*.conf;
+}" > /etc/onlyoffice/documentserver/nginx/ds.conf
