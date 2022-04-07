@@ -18,9 +18,6 @@ echo -e "Done!\n"
 # Update packets
 echo -e "Update Packets!"
 
-apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys CB2DE8E5 &> /dev/null
-sudo echo "deb https://download.onlyoffice.com/repo/debian squeeze main" >> /etc/apt/sources.list.d/onlyoffice.list
-
 apt update &> /dev/null
 apt full-upgrade -y &> /dev/null
 
@@ -30,7 +27,7 @@ echo -e "Done!\n"
 # Install programms for Nextcloud
 echo -e "Install programs!"
 
-apt install -y htop mariadb-server mariadb-client php php-gmp php-bcmath php-fpm php-common php-zip php-xml php-intl php-gd php-mysql php-mbstring php-curl php-imagick php-ldap php-json php-opcache php-apcu nginx unzip smbclient memcached php-memcached redis-server php-redis postgresql rabbitmq-server nginx-extras onlyoffice-documentserver  &> /dev/null
+apt install -y htop mariadb-server mariadb-client php php-gmp php-bcmath php-fpm php-common php-zip php-xml php-intl php-gd php-mysql php-mbstring php-curl php-imagick php-ldap php-json php-opcache php-apcu nginx unzip smbclient&> /dev/null
 
 
 echo -e "Done!\n"
@@ -40,7 +37,7 @@ echo -e "Done!\n"
 echo -e "Configur PHP!"
 
 echo -e "env[HOSTNAME] = $HOSTNAME\nenv[PATH] = /usr/local/bin:/usr/bin:/bin\nenv[TMP] = /tmp\nenv[TMPDIR] = /tmp\nenv[TEMP] = /tmp" >> /etc/php/7.4/fpm/pool.d/www.conf
-#echo -e "opcache.enable=1\nopcache.enable_cli=1\nopcache.interned_strings_buffer=8\nopcache.max_accelerated_files=10000\nopcache.memory_consumption=128\nopcache.save_comments=1\nopcache.revalidate_freq=1" >> /etc/php/7.4/fpm/php.ini
+echo -e "opcache.enable=1\nopcache.enable_cli=1\nopcache.interned_strings_buffer=8\nopcache.max_accelerated_files=10000\nopcache.memory_consumption=128\nopcache.save_comments=1\nopcache.revalidate_freq=1" >> /etc/php/7.4/fpm/php.ini
 
 systemctl enable php7.4-fpm &> /dev/null
 systemctl restart php7.4-fpm &> /dev/null
@@ -140,10 +137,10 @@ wget https://download.nextcloud.com/server/releases/nextcloud-23.0.3.zip
 unzip nextcloud-*.zip &> /dev/null
 mv nextcloud /var/www
 chown -R www-data:www-data /var/www/nextcloud
+sudo -u www-data php /var/www/nextcloud/occ db:convert-filecache-bigint
 
 echo -e "Done!\n"
 
 # Upgrade Nextcloud
 echo -e "Upgrade Nextcloud"
 
-echo -e "memory_limit"
