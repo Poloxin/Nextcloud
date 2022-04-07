@@ -142,6 +142,7 @@ echo -e "Upgrade Nextcloud"
 
 apt install -y  gnupg2 gnupg1 gnupg redis-server postgresql php-redis memcached php-memcached rabbitmq-server nginx-extras 
 
+systemctl enable postgresql &> /dev/null
 systemctl enable memcached &> /dev/null
 systemctl restart php7.4-fpm &> /dev/null
 
