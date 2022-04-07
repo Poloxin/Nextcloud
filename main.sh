@@ -8,7 +8,7 @@ echo -e "Start Script!\n"
 echo -e "Fix locale settings!"
 
 export LC_ALL="en_US.UTF-8" 
-locale-gen "en_US.UTF-8" &> /dev/null
+locale-gen "en_US.UTF-8" 
 
 echo -e "Done!\n"
 
@@ -25,7 +25,7 @@ echo -e "Done!\n"
 
 
 # Install programms for Nextcloud
-echo -e "Install programs!"
+echo -e "Install programms!"
 
 apt install -y htop mariadb-server mariadb-client php php-gmp php-bcmath php-fpm php-common php-zip php-xml php-intl php-gd php-mysql php-mbstring php-curl php-imagick php-ldap php-json php-opcache php-apcu nginx unzip &> /dev/null
 
@@ -141,15 +141,15 @@ echo -e "Done!\n"
 echo -e "Upgrade Nextcloud"
 
 # First DATABASE update
-sudo -u www-data php /var/www/nextcloud/occ db:convert-filecache-bigint
+php /var/www/nextcloud/occ db:convert-filecache-bigint
 
 # Second Install CASHED PROGRAMS
-apt install redis-server postgresq lphp-redis memcached php-memcached rabbitmq-server nginx-extras #&> /dev/null
+apt install -y  gnupg2 gnupg1 gnupg redis-server postgresql php-redis memcached php-memcached rabbitmq-server nginx-extras 
 
 systemctl enable memcached &> /dev/null
 systemctl restart php7.4-fpm &> /dev/null
 
-sudo -u www-data php /var/www/nextcloud/occ files:scan --all
+php /var/www/nextcloud/occ files:scan --all
 
 echo -e "Done!\n"
 
