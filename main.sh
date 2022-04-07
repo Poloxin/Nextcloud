@@ -168,7 +168,7 @@ apt update
 apt full-upgrade -y
 
 echo -e "\n\n\n=========================Enter password==========================\n\n\n"
-apt install onlyoffice-documentserver -y &> /de/null
+apt install onlyoffice-documentserver -y &> /dev/null
 
 #echo -e "include /etc/nginx/includes/http-common.conf;
 #server {
