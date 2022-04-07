@@ -29,7 +29,6 @@ echo -e "Install programms!"
 
 apt install -y htop mariadb-server mariadb-client php php-gmp php-bcmath php-fpm php-common php-zip php-xml php-intl php-gd php-mysql php-mbstring php-curl php-imagick php-ldap php-json php-opcache php-apcu nginx unzip &> /dev/null
 
-
 echo -e "Done!\n"
 
 
@@ -137,21 +136,17 @@ chown -R www-data:www-data /var/www/nextcloud
 
 echo -e "Done!\n"
 
+
 # Upgrade Nextcloud
 echo -e "Upgrade Nextcloud"
 
-# First DATABASE update
-php /var/www/nextcloud/occ db:convert-filecache-bigint
-
-# Second Install CASHED PROGRAMS
 apt install -y  gnupg2 gnupg1 gnupg redis-server postgresql php-redis memcached php-memcached rabbitmq-server nginx-extras 
 
 systemctl enable memcached &> /dev/null
 systemctl restart php7.4-fpm &> /dev/null
 
-php /var/www/nextcloud/occ files:scan --all
-
 echo -e "Done!\n"
+
 
 # Set PostgreSQL
 echo -e "Configure PostgreSQL!" 
@@ -173,13 +168,13 @@ apt update
 apt full-upgrade -y
 
 echo -e "\n\n\n=========================Enter password==========================\n\n\n"
-apt install onlyoffice-documentserver -y
+apt install onlyoffice-documentserver -y &> /de/null
 
-echo -e "include /etc/nginx/includes/http-common.conf;
-server {
-  listen 0.0.0.0:8080;
-  listen [::]:8080 default_server;
-  server_tokens off;
-
-  include /etc/nginx/includes/ds-*.conf;
-}" > /etc/onlyoffice/documentserver/nginx/ds.conf
+#echo -e "include /etc/nginx/includes/http-common.conf;
+#server {
+#  listen 0.0.0.0:8080;
+#  listen [::]:8080 default_server;
+#  server_tokens off;
+#
+#  include /etc/nginx/includes/ds-*.conf;
+#}" > /etc/onlyoffice/documentserver/nginx/ds.conf
