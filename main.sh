@@ -1,37 +1,69 @@
 #!/bin/bash
 
+# Start
+echo -e "Start Script!"
+
+
+# Fix Locale
+echo -e "Fix locale settings!\n"
+
+export LC_ALL="en_US.UTF-8"
+sudo locale-gen "en_US.UTF-8"
+
+echo -e "Done!\n\n"
+
 
 # Install Nextcloud
 
 # Update packets
+echo -e "Update Packets!\n"
+
 apt update
-apt full-upgrade -y 
+apt full-upgrade -y &> /dev/null
+
+echo -e "Done!\n\n"
+
 
 # Install programms for Nextcloud
-apt install -y htop mariadb-server php php-fpm php-common php-zip php-xml php-intl php-gd php-mysql php-mbstring php-curl php-imagick php-ldap php-json php-opcache php-apcu nginx unzip smbclient
+echo -e "Install programs!"
+
+apt install -y htop mariadb-server php php-fpm php-common php-zip php-xml php-intl php-gd php-mysql php-mbstring php-curl php-imagick php-ldap php-json php-opcache php-apcu nginx unzip smbclient &> /dev/null
+
+echo -e "Done!\n\n"
+
 
 # Set php
-echo -e "env[HOSTNAME] = $HOSTNAME\nenv[PATH] = /usr/local/bin:/usr/bin:/bin\nenv[TMP] = /tmp\nenv[TMPDIR] = /tmp\nenv[TEMP] = /tmp" >> /etc/php/7.4/fpm/pool.d/www.conf
+echo -e "Configur PHP!\n"
 
+echo -e "env[HOSTNAME] = $HOSTNAME\nenv[PATH] = /usr/local/bin:/usr/bin:/bin\nenv[TMP] = /tmp\nenv[TMPDIR] = /tmp\nenv[TEMP] = /tmp" >> /etc/php/7.4/fpm/pool.d/www.conf
 echo -e "opcache.enable=1\nopcache.enable_cli=1\nopcache.interned_strings_buffer=8\nopcache.max_accelerated_files=10000\nopcache.memory_consumption=128\nopcache.save_comments=1\nopcache.revalidate_freq=1" >> /etc/php/7.4/fpm/php.ini
 
-systemctl enable php7.4-fpm
-systemctl restart php7.4-fpm
+systemctl enable php7.4-fpm &> /dev/null
+systemctl restart php7.4-fpm &> /dev/null
+
+echo -e "Done!\n\n"
+
 
 # Set MariaDB
-systemctl enable mariadb
-systemctl start mariadb
+echo -e "Config MadriaDB!"
+systemctl enable mariadb &> /dev/null
+systemctl start mariadb &> /dev/null
 
 #db_pass=nextcloudDBTPC
 
 #mysql -e "UPDATE mysql.user SET Password = PASSWORD('$db_pass') WHERE User = 'root'"
-mysql -e "CREATE DATABASE nextcloud"
-mysql -e "CREATE USER 'nextcloud'@'localhost' IDENTIFIED BY 'nextcloud'"
-mysql -e "GRANT ALL ON nextcloud.* TO 'nextcloud'@'localhost' IDENTIFIED BY 'nextcloud' WITH GRANT OPTION"
-mysql -e "FLUSH PRIVILEGES"
-mysql -e "EXIT"
+mysql -e "CREATE DATABASE nextcloud;"
+mysql -e "CREATE USER 'nextcloud'@'localhost' IDENTIFIED BY 'nextcloud';"
+mysql -e "GRANT ALL ON nextcloud.* TO 'nextcloud'@'localhost' IDENTIFIED BY 'nextcloud' WITH GRANT OPTION;"
+mysql -e "FLUSH PRIVILEGES;"
+mysql -e "EXIT;"
+
+echo -e "Done!\n\n"
+
 
 # Set Nginx
+echo -e "Confix NGINX!\n"
+
 echo "server {
         listen 80;
         server_name 192.168.1.107;
@@ -89,14 +121,19 @@ echo "server {
         }
 }" > /etc/nginx/conf.d/nextcloud.conf
 
-sudo systemctl enable nginx
-sudo systemctl restart nginx
+sudo systemctl enable nginx &> /dev/null
+sudo systemctl restart nginx &> /dev/null
+
+echo -e "Done!\n\n"
 
 
 # Install Nextcloud
+echo -e "Install Nextcloud!"
 
 cd /tmp
 wget https://download.nextcloud.com/server/releases/nextcloud-23.0.3.zip
-unzip nextcloud-*.zip
+unzip nextcloud-*.zip &> /dev/null
 mv nextcloud /var/www
 chown -R www-data:www-data /var/www/nextcloud
+
+echo -e "Done!\n\n"
