@@ -1,27 +1,27 @@
 #!/bin/bash
 
 # Start
-echo -e "Start Script!"
+echo -e "Start Script!\n"
 
 
 # Fix Locale
-echo -e "Fix locale settings!\n"
+echo -e "Fix locale settings!"
 
 export LC_ALL="en_US.UTF-8" 
 sudo locale-gen "en_US.UTF-8" &> /dev/null
 
-echo -e "Done!\n\n"
+echo -e "Done!\n"
 
 
 # Install Nextcloud
 
 # Update packets
-echo -e "Update Packets!\n"
+echo -e "Update Packets!"
 
 apt update &> /dev/null
 apt full-upgrade -y &> /dev/null
 
-echo -e "Done!\n\n"
+echo -e "Done!\n"
 
 
 # Install programms for Nextcloud
@@ -29,11 +29,11 @@ echo -e "Install programs!"
 
 apt install -y htop mariadb-server php php-fpm php-common php-zip php-xml php-intl php-gd php-mysql php-mbstring php-curl php-imagick php-ldap php-json php-opcache php-apcu nginx unzip smbclient &> /dev/null
 
-echo -e "Done!\n\n"
+echo -e "Done!\n"
 
 
 # Set php
-echo -e "Configur PHP!\n"
+echo -e "Configur PHP!"
 
 echo -e "env[HOSTNAME] = $HOSTNAME\nenv[PATH] = /usr/local/bin:/usr/bin:/bin\nenv[TMP] = /tmp\nenv[TMPDIR] = /tmp\nenv[TEMP] = /tmp" >> /etc/php/7.4/fpm/pool.d/www.conf
 echo -e "opcache.enable=1\nopcache.enable_cli=1\nopcache.interned_strings_buffer=8\nopcache.max_accelerated_files=10000\nopcache.memory_consumption=128\nopcache.save_comments=1\nopcache.revalidate_freq=1" >> /etc/php/7.4/fpm/php.ini
@@ -41,11 +41,12 @@ echo -e "opcache.enable=1\nopcache.enable_cli=1\nopcache.interned_strings_buffer
 systemctl enable php7.4-fpm &> /dev/null
 systemctl restart php7.4-fpm &> /dev/null
 
-echo -e "Done!\n\n"
+echo -e "Done!\n"
 
 
 # Set MariaDB
 echo -e "Config MadriaDB!"
+
 systemctl enable mariadb &> /dev/null
 systemctl start mariadb &> /dev/null
 
@@ -58,11 +59,11 @@ mysql -e "GRANT ALL ON nextcloud.* TO 'nextcloud'@'localhost' IDENTIFIED BY 'nex
 mysql -e "FLUSH PRIVILEGES;"
 mysql -e "EXIT;"
 
-echo -e "Done!\n\n"
+echo -e "Done!\n"
 
 
 # Set Nginx
-echo -e "Confix NGINX!\n"
+echo -e "Confix NGINX!"
 
 echo "server {
         listen 80;
@@ -124,7 +125,7 @@ echo "server {
 sudo systemctl enable nginx &> /dev/null
 sudo systemctl restart nginx &> /dev/null
 
-echo -e "Done!\n\n"
+echo -e "Done!\n"
 
 
 # Install Nextcloud
@@ -136,4 +137,4 @@ unzip nextcloud-*.zip &> /dev/null
 mv nextcloud /var/www
 chown -R www-data:www-data /var/www/nextcloud
 
-echo -e "Done!\n\n"
+echo -e "Done!\n"
