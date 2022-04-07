@@ -7,8 +7,8 @@ echo -e "Start Script!"
 # Fix Locale
 echo -e "Fix locale settings!\n"
 
-export LC_ALL="en_US.UTF-8"
-sudo locale-gen "en_US.UTF-8"
+export LC_ALL="en_US.UTF-8" 
+sudo locale-gen "en_US.UTF-8" &> /dev/null
 
 echo -e "Done!\n\n"
 
@@ -18,7 +18,7 @@ echo -e "Done!\n\n"
 # Update packets
 echo -e "Update Packets!\n"
 
-apt update
+apt update &> /dev/null
 apt full-upgrade -y &> /dev/null
 
 echo -e "Done!\n\n"
