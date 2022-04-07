@@ -8,7 +8,7 @@ echo -e "Start Script!\n"
 echo -e "Fix locale settings!"
 
 export LC_ALL="en_US.UTF-8" 
-sudo locale-gen "en_US.UTF-8" &> /dev/null
+locale-gen "en_US.UTF-8" &> /dev/null
 
 echo -e "Done!\n"
 
