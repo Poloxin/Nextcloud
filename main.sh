@@ -100,19 +100,19 @@ echo "server {
         location ^~ /.well-known {
                 location = /.well-known/carddav { return 301 /remote.php/dav/; }
                 location = /.well-known/caldav  { return 301 /remote.php/dav/; }
-                location ^~ /.well-known{ return 301 /index.php/$uri; }
-                try_files $uri $uri/ =404;
+                location ^~ /.well-known{ return 301 /index.php/\$uri; }
+                try_files \$uri \$uri/ =404;
         }
 
         location / {
                 rewrite ^/.well-known/host-meta /public.php?service=host-meta last;
                 rewrite ^/.well-known/host-meta.json /public.php?service=host-meta-json last;
-                rewrite ^(/core/doc/[^\\/]+/)$ $1/index.html;
-                try_files $uri $uri/ index.php;
+                rewrite ^(/core/doc/[^\\/]+/)$ \$1/index.html;
+                try_files \$uri \$uri/ index.php;
         }
 
         location ~ ^(.+?\\.php)(/.*)?$ {
-                try_files $1 = 404;
+                try_files \$1 = 404;
                 include fastcgi_params;
                 fastcgi_param SCRIPT_FILENAME \$document_root\$1;
                 fastcgi_param PATH_INFO \$2;
