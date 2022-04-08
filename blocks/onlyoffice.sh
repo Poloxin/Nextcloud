@@ -9,7 +9,7 @@ echo -e "\n  ____        _        ____   __  __ _
  \\____/|_| |_|_|\\__, |\\____/|_| |_| |_|\\___\\___|
                  __/ |                          
                 |___/\n"
-
+apt install gnupg gnupg2 gnupg1
 apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys CB2DE8E5
 echo "deb https://download.onlyoffice.com/repo/debian squeeze main" | sudo tee /etc/apt/sources.list.d/onlyoffice.list
 apt update &> /dev/null
