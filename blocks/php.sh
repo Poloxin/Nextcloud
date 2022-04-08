@@ -15,7 +15,7 @@ sed -i "/^\;opcache.max_accelerated_files=10000/s/\;//" /etc/php/7.4/fpm/php.ini
 sed -i "/^\;opcache.memory_consumption=128/s/\;//" /etc/php/7.4/fpm/php.ini
 sed -i "/^\;opcache.save_comments=1/s/\;//" /etc/php/7.4/fpm/php.ini
 sed -i "s/\;opcache.revalidate_freq=2/opcache.revalidate_freq=1/" /etc/php/7.4/fpm/php.ini
-sed -i "/^\;memory_limit/s/128M/512M/" /etc/php/7.4/fpm/php.ini
+sed -i "/^memory_limit = 128M/s/128M/512M/" /etc/php/7.4/fpm/php.ini
 
 
 systemctl enable php7.4-fpm &> /dev/null
