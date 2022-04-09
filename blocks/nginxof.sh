@@ -10,4 +10,5 @@ server {
 
   include /etc/nginx/includes/ds-*.conf;
 }" > /etc/onlyoffice/documentserver/nginx/ds.conf
+systemctl restart nginx
 echo -e "----Done----\n"
