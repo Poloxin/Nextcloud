@@ -15,6 +15,5 @@ echo "deb https://download.onlyoffice.com/repo/debian squeeze main" | sudo tee /
 apt update &> /dev/null
 apt full-upgrade -y &> /dev/null
 
-echo -e "\n\n\n=====================================Enter password=========================================\n\n\n"
-apt install onlyoffice-documentserver -y &> /dev/null
+apt install onlyoffice-documentserver -y 
 echo -e "----Done----\n"

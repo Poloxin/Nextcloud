@@ -60,5 +60,5 @@ echo "server {
 }" > /etc/nginx/conf.d/nextcloud.conf
 
 systemctl enable nginx &> /dev/null
-sudo systemctl restart nginx &> /dev/null
+systemctl restart nginx &> /dev/null
 echo -e "----Done----\n"

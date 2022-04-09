@@ -13,4 +13,4 @@ unzip nextcloud-*.zip &> /dev/null
 mv nextcloud /var/www
 rm -rf nextcloud-*.zip
 chown -R www-data:www-data /var/www/nextcloud
-echo -e "----Done----"
+echo -e "----Done----\n"
