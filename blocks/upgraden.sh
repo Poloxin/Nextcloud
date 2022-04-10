@@ -33,4 +33,8 @@ sudo -u ${webuser} php /var/www/nextcloud/occ ldap:set-config s01 ldapAgentName 
 sudo -u ${webuser} php /var/www/nextcloud/occ ldap:set-config s01 ldapAgentPassword "AstraPass"; history -d $((HISTCMD-1))
 sudo -u ${webuser} php /var/www/nextcloud/occ ldap:set-config s01 ldapBase "dc=tpc,dc=tpcol,dc=ru"
 
+sudo -u www-data php /var/www/nextcloud/occ theming:config color \#32498C
+sudo -u www-data php /var/www/nextcloud/occ theming:config slogan 'Тольяттинский Политехнический колледж'
+sudo -u www-data php /var/www/nextcloud/occ theming:config name TPC
+
 echo -e "----Done----\n"
