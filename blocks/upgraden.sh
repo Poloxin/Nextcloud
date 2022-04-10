@@ -3,7 +3,8 @@
 # Upgrade Nextcloud
 echo -e "\n-Upgrade-NC-"
 cd /var/www/nextcloud/
-sudo -u www-data php occ maintenance:install --databasei "mariadb" --database-name "nextcloud"  --database-user "nextcloud" --database-pass "nextcloud" --admin-user "admin" --admin-pass "macinsoft"
+sudo -u www-data php /var/www/nextcloud/occ  maintenance:install --database "mysql" --database-name "nextcloud"  --database-user "nextcloud" --database-pass "nextcloud" --admin-user "admin" --admin-pass "macinsoft"
+sleep 10
 sed -i  "$ i\  \'memcache.local\' => \'\\\\\OC\\\\\Memcache\\\\\Redis\',\n  \'memcache.distributed\' => \'\\\\\OC\\\\\Memcache\\\\\Redis\',\n  \'memcache.locking\' => \'\\\\\OC\\\\\Memcache\\\\\Redis\',\n  \'redis\' => \n      array (\n          \'host\' => \'localhost\',\n          \'port\' => 6379,\n      )," /var/www/nextcloud/config/config.php
 sed -i  "$ i\  \  \'memcache.local\' => \'\\\\\OC\\\\\Memcache\\\\\Memcached\',\n  \'memcache.distributed\' => \'\\\\\OC\\\\\Memcache\\\\\Memcached\',\n  \'memcached_servers\' =>\n  array (\n    0 =>\n    array (\n      0 => \'localhost\',\n      1 => 11211,\n    ),\n  )," /var/www/nextcloud/config/config.php
 
