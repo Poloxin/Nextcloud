@@ -11,7 +11,5 @@
 ./blocks/postgresql.sh
 ./blocks/onlyoffice.sh
 ./blocks/nginxof.sh
-echo "----Set-UP-Nextcloud!!!----"
-sleep 600
 ./blocks/upgraden.sh
 # End
