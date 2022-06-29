@@ -11,7 +11,7 @@ echo -e "\n  ____        _        ____   __  __ _
                 |___/\n"
 
 wget http://ftp.de.debian.org/debian/pool/contrib/m/msttcorefonts/ttf-mscorefonts-installer_3.6_all.deb
-sudo apt install ttf-mscorefonts-installer
+sudo dpkg -i ttf-mscorefonts-installer_3.6_all.deb
 apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys CB2DE8E5
 echo "deb https://download.onlyoffice.com/repo/debian squeeze main" | sudo tee /etc/apt/sources.list.d/onlyoffice.list
 apt update &> /dev/null
